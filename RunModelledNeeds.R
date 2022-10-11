@@ -56,17 +56,12 @@ get_query <- function(query) {
   response
 }
 
-cat("Connecting to db...")
-
 # Check DB Connection
 get_query('SELECT * FROM imd_2019 LIMIT 1;') %>% print()
-
-cat("Connected!")
 
 # Source plumbeR API and start listening
 try_p <- tryCatch(
   {
-    cat("Starting api...")
     pr() %>% pr_filter('cors', function(req, res) {
       res$setHeader("Access-Control-Allow-Origin", "*")
 
@@ -340,7 +335,7 @@ try_p <- tryCatch(
       pr_run(host = '0.0.0.0', port = 8092, docs = T)
   },
   error = function(cond) {
-    cat(as.character(cond));
+    cat("\n" + as.character(cond) + "\n");
     return(list(
       "message" = "Bad Request, Please Select Different Response Variable(s)",
       "error" = as.character(cond)

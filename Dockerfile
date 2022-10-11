@@ -1,4 +1,4 @@
-FROM rocker/r-apt:bionic
+FROM rocker/r-ubuntu
 WORKDIR /api_modelled_need
 
 # Install R packages from Ubuntu binaries where possible
