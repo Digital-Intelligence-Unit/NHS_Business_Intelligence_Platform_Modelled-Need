@@ -336,6 +336,7 @@ try_p <- tryCatch(
       pr_run(host = '0.0.0.0', port = 8092, docs = T)
   },
   error = function(cond) {
+    cat("\n" + as.character(cond) + "\n");
     return(list(
       "message" = "Bad Request, Please Select Different Response Variable(s)",
       "error" = as.character(cond)
