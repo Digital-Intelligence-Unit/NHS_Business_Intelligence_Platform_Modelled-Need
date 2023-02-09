@@ -37,7 +37,7 @@ get_predictor_lookup <- function() {
       'imd_decile',
       'asthma',
       'chd',
-      'chf',
+      'heart_failure',
       'cancer',
       'copd',
       'depression',

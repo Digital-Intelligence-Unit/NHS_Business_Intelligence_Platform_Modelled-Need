@@ -182,7 +182,8 @@ try_p <- tryCatch(
           unlist() %>%
           paste(collapse = ', ') %>%
           paste(paste(keep_response, collapse = ', '), ., area_level, sep = ', ') %>%
-          paste('SELECT pcn, ccg,', ., 'FROM population_master LEFT JOIN imd_2019 ON lsoa = lsoa_code')
+          unique(c('ccg', .)) %>%
+          paste('SELECT pcn,', ., 'FROM population_master LEFT JOIN imd_2019 ON lsoa = lsoa_code')
 
         if (!filter_to_area %in% c('', 'undefined')) {
           filter_to_area <- str_replace_all(filter_to_area, 'and', '&')
@@ -190,11 +191,11 @@ try_p <- tryCatch(
           predictor_sql <- paste(
             predictor_sql,
             paste0("WHERE ccg IN ('", filter_to_area, "')"),
-            paste0("AND gpp_code NOT LIKE 'Y%' AND practice != 'Not A Real Lancashire Practice'")
+            paste0("AND gpp_code NOT LIKE 'Y%' AND gpp_name != 'Not A Real Lancashire gpp_name'")
           )
         } else {
           predictor_sql <- paste(
-            predictor_sql, paste0("WHERE gpp_code NOT LIKE 'Y%' AND practice != 'Not A Real Lancashire Practice'")
+            predictor_sql, paste0("WHERE gpp_code NOT LIKE 'Y%' AND gpp_name != 'Not A Real Lancashire Practice'")
           )
         }
 

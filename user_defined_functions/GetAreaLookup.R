@@ -12,7 +12,7 @@ get_area_lookup <- function() {
       'ICP'
     ),
     area_short_name = c(
-      'practice',
+      'gpp_name',
       'electoral_ward_or_division',
       'pcn',
       'ccg',

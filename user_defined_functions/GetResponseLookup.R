@@ -29,7 +29,7 @@ get_response_lookup <- function() {
     response_short_name = c(
       'asthma',
       'chd',
-      'chf',
+      'heart_failure',
       'cancer',
       'copd',
       'depression',
