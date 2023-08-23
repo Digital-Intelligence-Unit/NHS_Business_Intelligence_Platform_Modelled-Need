@@ -23,11 +23,24 @@ format_glm_data <- function(
   # Create "predict_var" to use in GLM, depending on response variable provided
   # If response variable = LTC(s) then change to binary
   # Combine LTCs if two are used
-  patient_df <- patient_df %>%
-    rowwise() %>%
-    mutate(predict_var = if_else(
-      prod(!!! syms(response_predict)) == 1, 'Y', 'N'
-    )) %>%
+
+
+  # patient_df <- patient_df %>%
+  #   rowwise() %>%
+  #   mutate(predict_var = if_else(
+  #     prod(!!! syms(response_predict)) == 1, 'Y', 'N'
+  #   )) %>%
+  #   ungroup() %>%
+  #   select(-!! response_predict, -c(area_group))
+
+ patient_df <- patient_df %>%
+    mutate(
+        predict_var = if_else(
+            rowSums(select(., !!!syms(response_predict)) == 1, na.rm = TRUE) == length(response_predict) & 
+            !is.na(rowSums(select(., !!!syms(response_predict)))), 
+            'Y', 'N'
+        )
+    ) %>%
     ungroup() %>%
     select(-!! response_predict, -c(area_group))
 
