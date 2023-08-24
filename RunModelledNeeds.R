@@ -183,7 +183,7 @@ try_p <- tryCatch(
           paste(collapse = ', ') %>%
           paste(paste(keep_response, collapse = ', '), ., area_level, sep = ', ') %>%
           unique(c('ccg', .)) %>%
-          paste('SELECT pcn,', ., 'FROM population_master LEFT JOIN imd_2019 ON lsoa = lsoa_code')
+          paste('SELECT ', ., 'FROM population_master LEFT JOIN imd_2019 ON lsoa = lsoa_code')
 
         if (!filter_to_area %in% c('', 'undefined')) {
           filter_to_area <- str_replace_all(filter_to_area, 'and', '&')
