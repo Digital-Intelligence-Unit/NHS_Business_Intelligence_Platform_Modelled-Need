@@ -9,14 +9,14 @@ get_area_lookup <- function() {
       'Ward',
       'Primary Care Network',
       'CCG',
-      'ICP'
+      'Place Based'
     ),
     area_short_name = c(
       'gpp_name',
       'electoral_ward_or_division',
       'pcn',
       'ccg',
-      'icp'
+      'du'
     )
   )
 }

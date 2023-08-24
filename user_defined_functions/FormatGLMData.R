@@ -42,7 +42,7 @@ format_glm_data <- function(
         )
     ) %>%
     ungroup() %>%
-    select(-!! response_predict, -c(area_group))
+    select(-!! response_predict)
 
   # Remove response variable, calculate count of other LTCs per patient,
   #   logarithmically re-scale IP/OP/AE appointments, and remove bad values
