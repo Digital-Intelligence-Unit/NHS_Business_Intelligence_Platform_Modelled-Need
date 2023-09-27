@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y -qq \
   r-cran-plyr
 
 # Install remaining R packages from source
-RUN R -e "install.packages(c('config', 'PRROC', 'xgboost', 'rapiclient'))"
+RUN R -e "install.packages(c('config', 'PRROC', 'xgboost', 'rapiclient','speedglm'))"
 
 # Copy over scripts and data needed to run R API
 COPY ./user_defined_functions/ user_defined_functions/.
