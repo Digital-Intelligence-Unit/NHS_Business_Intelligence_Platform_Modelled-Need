@@ -28,11 +28,11 @@ get_predictor_lookup <- function() {
       'Peripheral Artery Disease',
       'Rheumatoid Arthritis',
       'Stroke/TIA',
-      'Shielding Patients'
+      'Mosaic Type'
     ),
     predictor_short_name = c(
       'age',
-      'age',
+      'age_band_narrow',
       'sex',
       'imd_decile',
       'asthma',
@@ -54,7 +54,7 @@ get_predictor_lookup <- function() {
       'pad',
       'rheumatoid_arthritis',
       'stroke_tia',
-      'spl'
+      'mosaic_label'
     )
   )
 }
