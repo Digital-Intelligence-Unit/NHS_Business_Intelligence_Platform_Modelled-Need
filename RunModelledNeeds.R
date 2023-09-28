@@ -23,8 +23,7 @@ need_packages <- c(
   'MASS',
   'xgboost',
   'tidyverse',
-  'PRROC',
-  'speedglm'
+  'PRROC'
 )
 
 lapply(need_packages, library, character.only = TRUE)
@@ -248,7 +247,7 @@ try_p <- tryCatch(
           as.numeric()
 
         # Run logistic model, predict outcomes, and build confusion matrix
-        model <- speedglm(
+        model <- glm(
           formula,
           data = training_records,
           family = binomial(link = 'logit')
@@ -270,17 +269,17 @@ try_p <- tryCatch(
         diagnostics <- patient_records %>% get_logistic_model_diagnostics(pf)
 
         # Calculate variable importance on predicted outcome
-        # variable_importance <- varImp(model) %>%
-        #   rownames_to_column() %>%
-        #   rename(
-        #     model_variable = rowname,
-        #     importance = Overall
-        #   )
+        variable_importance <- varImp(model) %>%
+          rownames_to_column() %>%
+          rename(
+            model_variable = rowname,
+            importance = Overall
+          )
 
         model_output <- list(
           "model_match" = model_match,
           "diagnostics" = diagnostics,
-          #"importance" = variable_importance,
+          "importance" = variable_importance,
           "message" = "OK"
         )
 
