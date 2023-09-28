@@ -51,20 +51,6 @@ format_glm_data <- function(
     filter(!is.na(predict_var) & !is.na(area_var)) %>%
     drop_na()
 
-  # Add age banding if desired
-  if(age_factor == 'Y') {
-    patient_df <- patient_df %>%
-      mutate(
-        age = pmax(
-          pmin(age, config$max_age),
-          config$min_age
-        ),
-        age = as.factor(
-          config$age_band_width * ceiling(age / config$age_band_width)
-        )
-      )
-  }
-
   # Return dataframe
   patient_df
 }
