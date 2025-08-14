@@ -190,16 +190,9 @@ try_p <- tryCatch(
 
           predictor_sql <- paste(
             predictor_sql,
-            paste0("WHERE ccg IN ('", filter_to_area, "')"),
-            paste0("AND gpp_code NOT LIKE 'Y%' AND gpp_name != 'Not A Real Lancashire gpp_name'")
-          )
-        } else {
-          predictor_sql <- paste(
-            predictor_sql, paste0("WHERE gpp_code NOT LIKE 'Y%' AND gpp_name != 'Not A Real Lancashire Practice'")
+            paste0("JOIN (values ('", filter_to_area, "')) t(ccg) ON t.ccg = population_master.ccg")
           )
         }
-
-        print(predictor_sql)
 
         patient_records <- get_query(predictor_sql)
 
@@ -243,6 +236,7 @@ try_p <- tryCatch(
           as.numeric()
 
         # Run logistic model, predict outcomes, and build confusion matrix
+        print(training_records)
         model <- glm(
           formula,
           data = training_records,
