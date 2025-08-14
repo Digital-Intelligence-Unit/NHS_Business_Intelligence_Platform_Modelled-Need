@@ -182,7 +182,7 @@ try_p <- tryCatch(
           c(keep_response, .) %>%
           unique() %>%
           {
-            if (area_level != "ccg") . <- c("ccg", .)
+            if (area_level != "ccg") . <- c("population_master.ccg", .)
             if (area_level != "pcn") . <- c("pcn", .)
             .
           } %>%
