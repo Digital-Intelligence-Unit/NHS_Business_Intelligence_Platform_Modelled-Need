@@ -177,13 +177,17 @@ try_p <- tryCatch(
 
         # String for use in SQL
         predictor_sql <- data.frame(predictor_full_name = predictor_input) %>%
-          inner_join(predictor_lookup, by = 'predictor_full_name') %>%
-          select(predictor_short_name) %>%
-          unlist() %>%
-          paste(collapse = ', ') %>%
-          paste(paste(keep_response, collapse = ', '), ., area_level, sep = ', ') %>%
-          unique(c('ccg', .)) %>%
-          paste('SELECT pcn,', ., 'FROM population_master LEFT JOIN imd_2019 ON lsoa = lsoa_code')
+          inner_join(predictor_lookup, by = 'predictor_full_name')  %>%
+          pull(predictor_short_name) %>%
+          c(keep_response, .) %>%
+          unique() %>%
+          {
+            if (area_level != "ccg") . <- c("ccg", .)
+            if (area_level != "pcn") . <- c("pcn", .)
+            .
+          } %>%
+          str_c(collapse = ', ') %>%
+        {paste("SELECT", ., ",", area_level,'FROM population_master LEFT JOIN imd_2019 ON lsoa = lsoa_code')}
 
         if (!filter_to_area %in% c('', 'undefined')) {
           filter_to_area <- str_replace_all(filter_to_area, 'and', '&')
