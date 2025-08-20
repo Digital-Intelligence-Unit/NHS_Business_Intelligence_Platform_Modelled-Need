@@ -1,0 +1,61 @@
+import pandas as pd
+
+##
+# GLM predictor lookup dataframe
+##
+
+def get_predictor_lookup():
+    return pd.DataFrame({
+        'predictor_full_name': [
+            'Age',
+            'Age Band',
+            'Sex',
+            'Deprivation Decile',
+            'Asthma',
+            'Coronary Heart Disease',
+            'Congestive Heart Failure',
+            'Cancer',
+            'COPD',
+            'Depression',
+            'Diabetes',
+            'Hypertension',
+            'Atrial Fibrillation',
+            'Chronic Kidney Disease',
+            'Dementia',
+            'Epilepsy',
+            'Hypothyroid',
+            'Mental Health',
+            'Learning Disability',
+            'Osteoporosis',
+            'Peripheral Artery Disease',
+            'Rheumatoid Arthritis',
+            'Stroke/TIA',
+            'Shielding Patients'
+        ],
+        'predictor_short_name': [
+            'age',
+            'age',
+            'sex',
+            'imd_decile',
+            'asthma',
+            'chd',
+            'heart_failure',
+            'cancer',
+            'copd',
+            'depression',
+            'diabetes',
+            'hypertension',
+            'atrial_fibrillation',
+            'ckd',
+            'dementia',
+            'epilepsy',
+            'hypothyroid',
+            'mental_health',
+            'learning_disabilities',
+            'osteoporosis',
+            'pad',
+            'rheumatoid_arthritis',
+            'stroke_tia',
+            'spl'
+        ]
+    })
