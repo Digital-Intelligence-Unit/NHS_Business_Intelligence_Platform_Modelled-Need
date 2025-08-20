@@ -1,0 +1,28 @@
+FROM public.ecr.aws/lambda/python:latest as base
+
+# ------------
+# Build stage
+# -------------
+FROM base as build
+
+# Install poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Copy files
+RUN mkdir /app
+WORKDIR /app
+ADD . .
+
+# Poetry install
+RUN poetry build
+RUN poetry run pip install --upgrade -t package dist/*.whl
+
+# ------------
+# Production stage
+# -------------
+FROM base
+COPY --from=build /app/package ${LAMBDA_TASK_ROOT}
+
+# Entrypoint
+CMD ['modelled_needs.index.LambdaHandler']
