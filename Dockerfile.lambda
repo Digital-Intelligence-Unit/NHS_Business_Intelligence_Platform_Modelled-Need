@@ -1,15 +1,18 @@
-FROM public.ecr.aws/lambda/python:latest as base
+FROM public.ecr.aws/lambda/python:3.13
 
 # Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:${PATH}"
+RUN pip install "poetry"
 
-ADD . .
+# Copy files
+WORKDIR ${LAMBDA_TASK_ROOT}
+COPY poetry.lock pyproject.toml ${LAMBDA_TASK_ROOT}/
 
-RUN poetry build
-RUN poetry run pip install --upgrade -t package dist/*.whl
+# Project initialization:
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root
 
-COPY ./package ${LAMBDA_TASK_ROOT}
+# Copy our Flask app to the Docker image
+COPY modelled_needs ${LAMBDA_TASK_ROOT}/modelled_needs
 
-# Entrypoint
-CMD ['modelled_needs.index.LambdaHandler']
+# Set the CMD to your handler 
+RUN ls --recursive ${LAMBDA_TASK_ROOT}/modelled_needs
+CMD [ "modelled_needs.index.LambdaHandler" ]
