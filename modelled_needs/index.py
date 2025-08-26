@@ -1,5 +1,5 @@
-from lib.model import get_model
-from lib.helpers.aws import AWSHelper
+from modelled_needs.lib.model import get_model
+from modelled_needs.lib.helpers.aws import AWSHelper
 
 # Creates class instance for lambda
 def LambdaHandler(event, lambda_context = None):
