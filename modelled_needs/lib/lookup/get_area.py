@@ -10,13 +10,15 @@ def get_area_lookup():
             'Ward',
             'Primary Care Network',
             'CCG',
-            'ICP'
+            'ICP',
+            'Place Based'
         ],
         'area_short_name': [
             'gpp_name',
             'electoral_ward_or_division',
             'pcn',
             'ccg',
-            'icp'
+            'icp',
+            'du'
         ]
     })

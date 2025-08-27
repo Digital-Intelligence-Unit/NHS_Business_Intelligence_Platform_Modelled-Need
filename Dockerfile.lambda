@@ -3,17 +3,12 @@ FROM public.ecr.aws/lambda/python:3.13
 # Install poetry
 RUN pip install "poetry"
 
-# Copy files
+# Task dir & copy
 WORKDIR ${LAMBDA_TASK_ROOT}
-COPY poetry.lock pyproject.toml ${LAMBDA_TASK_ROOT}/
+COPY . ${LAMBDA_TASK_ROOT}/
 
 # Project initialization:
 RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root
-ENV PYTHONPATH=${LAMBDA_TASK_ROOT}
-
-# Copy our Flask app to the Docker image
-COPY . ${LAMBDA_TASK_ROOT}/
 
 # Set the CMD to your handler 
-RUN ls --recursive ${LAMBDA_TASK_ROOT}
 CMD [ "modelled_needs.index.LambdaHandler" ]

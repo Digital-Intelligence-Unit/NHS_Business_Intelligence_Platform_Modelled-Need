@@ -43,9 +43,9 @@ def compare_model_output(real_df, predict_vector, n_predict, model_type, xg_pred
     )
     grouped['match_ratio'] = grouped['observed'] / grouped['expected']
     grouped['chi_square'] = (grouped['observed'] - grouped['expected']) ** 2 / grouped['expected']
-    grouped['p_value'] = grouped.apply(
-        lambda row: chi2.sf(row['chi_square'], df=(len(real_df) - 1) * (n_predict - 1)), axis=1
-    )
+    # grouped['p_value'] = grouped.apply(
+    #     lambda row: chi2.sf(row['chi_square'], df=(len(real_df) - 1) * (n_predict - 1)), axis=1
+    # )
 
     # Calculate confidence interval, significance, and add a significant Y/N flag
     grouped['match_lower'] = chi2.ppf(0.05, 2 * grouped['observed']) / (2 * grouped['expected'])
@@ -66,5 +66,8 @@ def compare_model_output(real_df, predict_vector, n_predict, model_type, xg_pred
             np.abs(grouped['match_lower'] - 1)
         )
     )
+
+    # Remove nan
+    grouped = grouped.replace({np.nan: None})
 
     return grouped

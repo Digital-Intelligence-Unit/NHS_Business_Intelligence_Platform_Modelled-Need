@@ -4,11 +4,11 @@ import sqlalchemy
 from statsmodels.formula.api import glm
 from statsmodels.api import families
 
-from lib.lookup.get_response import get_response_lookup
-from lib.lookup.get_area import get_area_lookup
-from lib.lookup.get_predictor import get_predictor_lookup
-from lib.lookup.format_glm_data import format_glm_data
-from lib.lookup.compare_model_output import compare_model_output
+from modelled_needs.lib.lookup.get_response import get_response_lookup
+from modelled_needs.lib.lookup.get_area import get_area_lookup
+from modelled_needs.lib.lookup.get_predictor import get_predictor_lookup
+from modelled_needs.lib.lookup.format_glm_data import format_glm_data
+from modelled_needs.lib.lookup.compare_model_output import compare_model_output
 
 def get_postgres_engine():
     return sqlalchemy.create_engine(
@@ -69,7 +69,11 @@ def get_model(
 
     # SQL query for predictors
     predictor_sql = f"""
-        SELECT pcn, {', '.join(keep_response + predictor_formula + [area_level])}
+        SELECT {', '.join(
+            keep_response + 
+            predictor_formula + 
+            [area_level] + (['pcn'] if area_level != 'pcn' else [])
+        )}
         FROM population_master
         LEFT JOIN imd_2019 ON lsoa = lsoa_code
     """
@@ -78,7 +82,7 @@ def get_model(
     if filter_areas:
         patient_records = get_patient_records(
             sqlalchemy
-                .text(predictor_sql + """ 
+                .text(predictor_sql.replace("ccg,", "population_master.ccg,") + """ 
                     JOIN ( 
                         values :filterAreas
                     ) t(ccg) on t.ccg = population_master.ccg
