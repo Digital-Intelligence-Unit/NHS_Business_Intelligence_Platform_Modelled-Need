@@ -67,8 +67,8 @@ def get_model(
         'predictor_short_name'
     ].tolist()
 
-    # SQL query for predictors
-    predictor_sql = f"""
+    # SQL query for predictors (TO-DO: Change this to store locally)
+    predictor_sql = (f"""
         SELECT {', '.join(
             keep_response + 
             predictor_formula + 
@@ -76,16 +76,14 @@ def get_model(
         )}
         FROM population_master
         LEFT JOIN imd_2019 ON lsoa = lsoa_code
-    """
+    """)
 
     # Add filter areas?
     if filter_areas:
         patient_records = get_patient_records(
             sqlalchemy
-                .text(predictor_sql.replace("ccg,", "population_master.ccg,") + """ 
-                    JOIN ( 
-                        values :filterAreas
-                    ) t(ccg) on t.ccg = population_master.ccg
+                .text(predictor_sql + """ 
+                    WHERE ccg IN :filterAreas
                 """)
                 .bindparams(sqlalchemy.bindparam("filterAreas", expanding=True)), 
             { 'filterAreas': filter_areas }

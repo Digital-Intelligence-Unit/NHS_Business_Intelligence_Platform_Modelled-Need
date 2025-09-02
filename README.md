@@ -20,3 +20,6 @@ ON population_master(gpp_name);
 
 CREATE INDEX IF NOT EXISTS idx_population_master_lsoa
 ON population_master(lsoa);
+
+CREATE INDEX IF NOT EXISTS idx_imd_2019_lsoa_code 
+ON imd_2019(lsoa_code);
